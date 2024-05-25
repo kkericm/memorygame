@@ -1,0 +1,93 @@
+.card-container {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.t2x2 {
+    width: 250px;
+    height: 340px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+.t3x2 {
+    width: 350px;
+    height: 350px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.card {
+    position: relative;
+    width: 80px;
+    height: 120px;
+
+    background-color: yellow;
+
+    border-radius: 15px;
+    border: 4px solid black;
+    
+    padding: 10px;
+    display: inline-block;
+
+    /* animation: Flip 500ms forwards; */
+}
+
+.card div {
+    position: absolute;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+
+    background-color: rgb(164, 164, 0);
+    border-radius: 5px;
+}
+
+.card img {
+    width: 40px;
+    filter: invert(1) sepia(1) saturate(100);
+}
+
+.killed {
+    transform: scale(0.9);
+    background-color: rgb(125, 125, 125);
+    opacity: 0.5;
+}
+
+.killed div {
+    background-color: rgb(96, 96, 96);
+}
+
+.killed img {
+    filter: invert(1) grayscale(1) brightness(0.5);
+}
+
+@keyframes Flip {
+    100% {
+        transform: scaleX(0);
+    }
+}
+@keyframes FlipS {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.card .front {
+    background-color: lightslategray;
+
+    & img {
+        filter: none;
+        opacity: 50%;
+    }
+}

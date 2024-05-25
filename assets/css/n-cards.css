@@ -1,0 +1,257 @@
+.card-container {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+
+    width: fit-content;
+    height: fit-content;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.t2x2 {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+.t3x2 {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+.t4x2 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+}
+.t4x3 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    scale: 0.8;
+    margin-top: -30px;
+}
+.t4x4 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    scale: 0.7;
+    margin: -80px;
+
+    & .card img {
+        width: 50px;
+    }
+}
+.t5x4 {
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    
+    scale: 0.57;
+    margin: -120px;
+
+    & .card img {
+        width: 50px;
+    }
+}
+.t6x4 {
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+
+    scale: 0.67;
+    margin: -90px;
+
+    & .card img {
+        width: 50px;
+    }
+}
+.t7x4 {
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+
+    scale: 0.7;
+    margin: -80px;
+
+    & .card img {
+        width: 60px;
+    }
+}
+.t8x4 {
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    scale: 0.6;
+    margin: -110px;
+
+    & .card img {
+        width: 60px;
+    }
+}
+.t9x4 {
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    scale: 0.55;
+    margin: -120px;
+    
+    & .card img {
+        width: 60px;
+    }
+}
+.t10x5 {
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    scale: 0.5;
+    margin: -180px;
+    
+    & .card img {
+        width: 60px;
+    }
+}
+.t12x5 {
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    scale: 0.4;
+    margin: -220px;
+    
+    & .card img {
+        width: 70px;
+    }
+}
+
+.card {
+    position: relative;
+    width: 60px;
+    height: 100px;
+
+    background-color: rgb(167, 167, 0);
+
+    border-radius: 10px;
+    border: 10px solid yellow;
+    outline: 4px solid black;
+    
+    padding: 10px;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    
+    /* & img {
+    }; */
+    
+    /* animation: Kill 500ms forwards; */
+}
+
+.card img {
+    position: absolute;
+    filter: invert() sepia(1) saturate(100);
+    width: 40px;
+}
+
+.back {
+    & .show-back {
+        visibility: visible;
+    }
+    & .show-front {
+        visibility: hidden;
+    }
+}
+.front {
+    & .show-back {
+        visibility: hidden;
+    }
+    & .show-front {
+        visibility: visible;
+    }
+}
+
+.killed {
+    transform: scale(0.9);
+    background-color: rgb(125, 125, 125);
+    border-color: rgb(96, 96, 96);
+    opacity: 0.5;
+
+    transition: all 500ms;
+    
+    & img {
+        opacity: 0.5;
+        filter: invert(0);
+    }
+}
+
+@keyframes Flip {
+    50% {
+        transform: scaleX(0);
+    }
+}
+@keyframes Kill {
+    100% {
+        transform: scale(0.9);
+        background-color: rgb(125, 125, 125);
+        border-color: rgb(96, 96, 96);
+        opacity: 0.5;
+
+        & img {
+            opacity: 0.5;
+            filter: invert(0);
+        }
+    }
+}
+
+@media (max-width: 60vh) {
+    .t6x4 {
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    
+        scale: 0.60;
+        margin: -100px;
+    
+        & .card img {
+            width: 50px;
+        }
+    }
+    .t7x4 {
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    
+        scale: 0.5;
+        margin: -140px;
+    
+        & .card img {
+            width: 60px;
+        }
+    }
+    .t8x4 {
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        scale: 0.45;
+        margin: -160px;
+    
+        & .card img {
+            width: 60px;
+        }
+    }
+    .t9x4 {
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        scale: 0.40;
+        margin: -170px;
+        
+        & .card img {
+            width: 60px;
+        }
+    }
+    .t10x5 {
+        grid-template-columns: repeat(10, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        scale: 0.36;
+        margin: -230px;
+        
+        & .card img {
+            width: 60px;
+        }
+    }
+    .t12x5 {
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        scale: 0.3;
+        margin: -260px;
+        
+        & .card img {
+            width: 70px;
+        }
+    }
+}

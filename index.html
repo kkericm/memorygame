@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory</title>
+    <!-- <link rel="stylesheet" href="assets/css/cards.css"> -->
+    <link rel="stylesheet" href="assets/css/n-cards.css">
+    <link rel="stylesheet" href="assets/css/basics.css">
+    <link rel="stylesheet" href="assets/css/dialog.css">
+</head>
+<body>
+    <div class="dialog-background win">
+        <div class="dialog">
+            <span class="title">You Win</span>
+            <span class="p">Congratulations!</span>
+            <img src="assets/img/play.png" onclick="toNewGame()">
+        </div>
+    </div>
+    <div class="dialog-background lost hidden">
+        <div class="dialog">
+            <span class="title">Game Over</span>
+            <span class="p">Try again...</span>
+            <img src="assets/img/play.png" onclick="toNewGame()">
+        </div>
+    </div>
+    <div class="dialog-background new-game hidden">
+        <div class="dialog">
+            <span class="title">New game</span>
+            <span class="p">Choose Difficult:</span>
+            <div class="diffs">
+                <button id="1" class="select" onclick="selectThis(this)">Easy</button>
+                <button id="1.5" class="un-select" onclick="selectThis(this)">Medium</button>
+                <button id="2" class="un-select" onclick="selectThis(this)">Hard</button>
+                <button id="2.5" class="un-select" onclick="selectThis(this)">Nightmare</button>
+            </div>
+            <span class="p">Choose format:</span>
+            <div class="formats">
+                <button class="select" onclick="selectThis(this)">2x2</button>
+                <button class="un-select" onclick="selectThis(this)">3x2</button>
+                <button class="un-select" onclick="selectThis(this)">4x2</button>
+                <button class="un-select" onclick="selectThis(this)">4x3</button>
+                <button class="un-select" onclick="selectThis(this)">4x4</button>
+                <button class="un-select" onclick="selectThis(this)">5x4</button>
+                <button class="un-select" onclick="selectThis(this)">6x4</button>
+                <button class="un-select" onclick="selectThis(this)">7x4</button>
+                <button class="un-select" onclick="selectThis(this)">8x4</button>
+                <button class="un-select" onclick="selectThis(this)">9x4</button>
+                <button class="un-select" onclick="selectThis(this)">10x5</button>
+                <button class="un-select" onclick="selectThis(this)">12x5</button>
+            </div>
+            <img src="assets/img/play.png" onclick="startGame(this)" tabindex="1">
+
+        </div>
+    </div>
+
+    <div class="screen">
+
+        <span class="chances">
+            Chances: 
+            <span class="value">3</span>
+        </span>
+        <div class="card-container">
+        </div>
+
+    </div>
+
+    <script>
+        var test = null;
+        var oldcard = null;
+        var pause = false;
+        var chances = parseInt(document.querySelector(".chances .value").textContent);
+        var cardLength = 0;
+        var cardKilleds = 0;
+        var difficult = 1;
+        const Cards = [
+            "alligator",
+            "amongus",
+            "android",
+            "apple",
+            "banana",
+            "basketball",
+            "batman",
+            "bee",
+            "bender",
+            "berry",
+            "blockly",
+            "bomb",
+            "brave",
+            "butterfly",
+            "cat",
+            "cavern",
+            "cloud",
+            "code",
+            "coffee",
+            "commandline",
+            "dell",
+            "dinosaur",
+            "discord",
+            "dog",
+            "dolphin",
+            "drill",
+            "edger",
+            "elephant",
+            "email",
+            "fandom",
+            "feelsguy",
+            "frog",
+            "gameboy",
+            "garena",
+            "hawk",
+            "helmet",
+            "homer",
+            "horse",
+            "husk",
+            "iceberg",
+            "inkscape",
+            "instagram",
+            "ironman",
+            "jetpackjoyride",
+            "kiwi",
+            "leaf",
+            "licence",
+            "linux",
+            "littlenightmare",
+            "melody",
+            "meteore",
+            "monkey",
+            "moon",
+            "opera",
+            "paper",
+            "pelican",
+            "playstation",
+            "rabbit",
+            "rabbit2",
+            "rabbit3",
+            "ray",
+            "rebels",
+            "redpanda",
+            "reload",
+            "roblox",
+            "seaparrot",
+            "slug",
+            "snail",
+            "sprite",
+            "stackoverflow",
+            "stars",
+            "tinder",
+            "twitter",
+            "valorant",
+            "vivaldi",
+            "vk",
+            "weibo",
+            "whatsapp",
+            "wifi",
+            "windows",
+            "wine",
+            "youtubeshorts"
+        ]
+
+        function hideCard(/**@type {Element}*/ par) {            
+            flipCard(par);
+            setTimeout(() => {
+                par.classList.replace("front", "back");
+                setTimeout(() => {
+                    par.style.animation = "";
+                }, 200)
+            }, 200);
+        }
+        
+        function showCard(/**@type {Element}*/ par) {
+            flipCard(par);
+            setTimeout(() => {
+                par.classList.replace("back", "front");
+                setTimeout(() => {
+                    par.style.animation = "";
+                }, 200)
+            }, 200);
+        }
+        
+        function destroyCards(/**@type {Element}*/ par, /**@type {Element}*/other) {    
+            destroyCard(other);
+            destroyCard(par);
+        }
+        function destroyCard(/**@type {Element}*/ par) {
+            par.style.animation = ""
+            par.classList.add("killed");
+            cardKilleds++
+        }
+
+        function flipCard(/**@type {HTMLElement}*/ par) {
+            par.style.animation = "Flip 400ms";
+        }
+
+        function removeChance() {
+            chances--
+            document.querySelector(".chances .value").textContent = chances
+        }
+
+        function testChances() {
+            if (chances === 0) {
+                document.querySelectorAll(".card:not(.killed)").forEach(el => {
+                    showCard(el);
+                })
+                document.querySelector(".lost").classList.remove("hidden");
+            } if (cardLength === cardKilleds) {
+                document.querySelector(".win").classList.remove("hidden");
+            }
+        }
+
+        function testCard(/**@type {Element}*/ par) {
+            if (!pause && !par.classList.contains("killed")) {
+                showCard(par);
+                let u = par.id.split("-");
+
+                if (test === null) {
+                    test = par.id.split("-");
+                    oldcard = par;
+                } else if (test[0] === u[0] && test[1] !== u[1]) {
+                    pause = true;
+                    setTimeout(() => {
+                        destroyCards(par, oldcard);
+                        test = null;
+                        oldcard = null;
+                        pause = false;
+                        testChances();
+                    }, 500)
+                } else {
+                    pause = true
+                    setTimeout(() => {
+                        hideCard(par);
+                        hideCard(oldcard);
+                        test = null;
+                        oldcard = null;
+                        pause = false;
+                        removeChance();
+                        testChances();
+                    }, 500)
+                }
+            }
+        }
+
+        function rInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateGame(/**@type {"2x2"|"3x2"|"4x2"|"4x3"}*/type) {
+            let k = document.querySelector(".card-container");
+            k.className = `card-container t${type}`;
+            let _cards = [];
+            let y = Cards.slice();
+
+            function pushHTMLs(val) {
+                _cards.push(`<div class="card back" id="${val}-0" onclick="testCard(this)">
+                    <img src="assets/img/${val}.png" class="show-front">
+                    <img src="assets/img/copas.png" class="show-back">
+                </div>`);
+                _cards.push(`<div class="card back" id="${val}-1" onclick="testCard(this)">
+                    <img src="assets/img/${val}.png" class="show-front">
+                    <img src="assets/img/copas.png" class="show-back">
+                </div>`);
+            }
+
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            let ols = type.split("x").map(d => parseInt(d));
+            for (let i = 0; i < ((ols[0] * ols[1])/2); i++) {
+                let value = y[rInt(0, y.length-1)];
+                y.splice(y.indexOf(value), 1);
+                chances = Math.ceil(ols[0] * ols[1] / difficult);
+                document.querySelector(".chances .value").textContent = chances;
+                cardLength = ols[0] * ols[1];
+                pushHTMLs(value);
+            }
+
+            k.innerHTML = shuffleArray(_cards).join("");
+        }
+
+        function toNewGame() {
+            document.querySelectorAll(".dialog-background").forEach(d => {
+                if (d.classList.contains("new-game")) d.classList.remove("hidden")
+                else d.classList.add("hidden")
+            });
+            cardKilleds = 0
+        }
+        
+        function startGame(/**@type {Element}*/ par) {
+            document.querySelector(".new-game").classList.add("hidden");
+            generateGame(document.querySelector(".new-game .formats .select").textContent);
+            difficult = parseFloat(document.querySelector(".new-game .diffs .select").id)
+        }
+        
+        function selectThis(/**@type {Element}*/ par) {
+            par.parentElement.querySelector(".select").classList.replace("select", "un-select");
+            par.classList.replace("un-select", "select");
+        }
+
+        toNewGame()
+    </script>
+</body>
+</html>
